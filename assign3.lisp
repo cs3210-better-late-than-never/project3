@@ -85,12 +85,11 @@
 ;;  (boolean-xor t nil) => t
 
 ;;  (boolean-xor nil nil) => nil
-
 (defun boolean-xor (a b)
-
-  ;;Your implementation go here
-
-  )
+  (if  (equal a b)
+       NIL
+       T)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -105,10 +104,11 @@
 ;;  (boolean-implies nil nil) => t
 
 (defun boolean-implies (a b)
-
-  ;;<Your implementation go here >
-
-  )
+  (cond
+    ((not a) T)   ;; if a = NIL, return T
+    (b T)         ;; if a = T and B = T, return T
+    (T NIL))      ;; if a = T and B = NIL, return NIL
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -123,9 +123,9 @@
 ;;  (boolean-iff nil nil) => t
 
 (defun boolean-iff (a b)
-
-  ;;<Your implementation go here >
-
+  (if (equal a b)
+      T
+      NIL)
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
