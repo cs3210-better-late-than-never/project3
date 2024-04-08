@@ -5,23 +5,23 @@ Use only the following standard Lisp functions, macros, operators, and constants
     - IF
     - WHEN
     - COND
-    - NOT
-    - AND
-    - OR
-    - EQUAL
-    - CONS
-    - LIST
-    - CAR
-    - CDR
-    - FIRST
+    - NOT       -> returns t if x is nil, or returns nil
+    - AND       -> returns nil if any of the inputs are nil, or value of last
+    - OR        -> returns first non-nil value found, or value of last
+    - EQUAL     -> T iff identical type and object? (NOTE: equal not eq)
+    - CONS      -> add element to front of list. ex: (cons 1 '(2 3 4)) returns (1 2 3 4)
+    - LIST      -> constructs a list from given args
+    - CAR       -> grab first element in list, throws error if empty or not list
+    - CDR       -> grab last element in list, throws error if empty or not list
+    - FIRST     -> access first element of list/vector/...sequence? 
     - SECOND
     - THIRD
-    - LENGTH
+    - LENGTH    -> computes length of vector/string/list
     - DEFUN
-    - LABELS
-    - LET
-    - LET*
-    - FUNCALL
-    - QUOTE
+    - LABELS    -> allow recursion? https://stackoverflow.com/questions/7381491/use-of-labels-in-common-lisp
+    - LET       -> variables bound all at once 
+    - LET*      -> variables bound sequentially, used when referencing previous bindings? i'm not sure
+    - FUNCALL   -> call function with arguments. ex: (funcall #'iff T T))         use in eval maybe?
+    - QUOTE     -> pass arguments to function as exact, or read (expression) without treating it as a function: https://stackoverflow.com/questions/134887/when-to-use-or-quote-in-lisp
     - any arithmetic operator or relation (+, -, *, /, <, <=, >, >=, =)
     - any numerical constant
