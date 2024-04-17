@@ -11,10 +11,10 @@
 ;;  (set-member '(1 2) 3) =>  NIL
 
 (defun set-member (set item)
-
-  ;;Your implementation go here
-
-  )
+  (cond
+    ((equal (length set) 0) nil) 
+    ((equal (car set) item) t)                 ; If the first element matches, return T
+    (t (set-member (cdr set) item))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -152,9 +152,9 @@
 ;; C-M x individual functions, and then C-c C-c to compile
 ;; then enter (test-case) into REPL to run uncommented tests
 (defun test-case ()
-  ;;(format t "~%========= test set-member =========~%")
-  ;;(format t "set-member Test case 1 (T): ~x~%" (set-member '(1 2) 1))
-  ;;(format t "set-member Test case 2 (NIL): ~x~%" (set-member '(1 2) 3))
+  (format t "~%========= test set-member =========~%")
+  (format t "set-member Test case 1 (T): ~x~%" (set-member '(2 1) 1))
+  (format t "set-member Test case 2 (NIL): ~x~%" (set-member '(1 2) 3))
   
   ;;(format t "~%========= test set-union =========~%")
   ;;(format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
