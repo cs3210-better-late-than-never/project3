@@ -149,8 +149,7 @@
   )
 
 ;;;; FUNCTION TEST SECTION ;;;;
-;; C-M x individual functions, and then C-c C-c to compile
-;; then enter (test-case) into REPL to run uncommented tests
+;; uncomment desired test, enter (test-case) in the REPL to run tests
 (defun test-case ()
   (format t "~%========= test set-member =========~%")
   (format t "set-member Test case 1 (T): ~x~%" (set-member '(2 1) 1))
