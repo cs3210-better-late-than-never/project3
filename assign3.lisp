@@ -144,7 +144,7 @@
 
 (defun boolean-eval (exp)
   (cond
-    ;; base case: make expression is a boolean
+    ;; base case: make sure expression is a boolean
     ((or (equal exp T) (equal exp NIL)) exp)
 
     ;; not case
