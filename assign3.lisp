@@ -267,4 +267,10 @@
   (format t "EVAL COMBO Test 4 (T): ~x~%" (boolean-eval '(xor (or T T) (and T NIL))))
   (format t "EVAL COMBO Test 5 (T): ~x~%" (boolean-eval '(implies (and T T) (not NIL))))
   (format t "EVAL COMBO Test 6 (NIL): ~x~%" (boolean-eval '(iff (xor T T) (and T T))))
+
+  ;;for some reason this test is evaluating to T instead of NIL ?
+  (format t "EVAL COMBO Test 7 (NIL): ~x~%" (boolean-eval '(and (iff T T) (xor NIL NIL))))
+
+  (format t "EVAL COMBO Test 8 (NIL): ~x~%" (boolean-eval '(not (implies NIL T))))
+  (format t "EVAL COMBO Test 9 (T): ~x~%" (boolean-eval '(or (and T T) (iff T T))))
   )
