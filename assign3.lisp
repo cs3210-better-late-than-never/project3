@@ -28,12 +28,16 @@
 
 ;;   (set-union '(1 2) '(2 4)) => '(1 2 4)
 
+(defun remove-dups (set)
+  (cond ((equal set nil) set)
+        ((set-member (cdr set) (car set))
+	 (remove-dups (cdr set)))
+        (t (cons (car set) (remove-dups (cdr set))))))
+
 (defun set-union (set-1 set-2)
-
-  ;;Your implementation go here
-
-  )
-
+  (if (equal set-1 nil)
+      set-2
+      (remove-dups (cons (car set-1) (set-union (cdr set-1) set-2)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -69,10 +73,9 @@
 ;;   (set-diff '(1 2) '(2 4)) => '(1)
 
 (defun set-diff (set-1 set-2)
-
-  ;;Your implementation go here
-
-  )
+  (if (equal set-1 nil)
+      set-2
+      (remove-dups (cons (car set-1) (set-union (cdr set-1) set-2)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -156,8 +159,9 @@
   (format t "set-member Test case 1 (T): ~x~%" (set-member '(2 1) 1))
   (format t "set-member Test case 2 (NIL): ~x~%" (set-member '(1 2) 3))
   
-  ;;(format t "~%========= test set-union =========~%")
-  ;;(format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
+  (format t "~%========= test set-union =========~%")
+  (format t "set-union Test case {1 3 4}: ~x~%" (set-union '(1 1 1 1 1 1 1 3) '(3 4 4)))
+  (format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
   
   ;;(format t "~%========= test set-intersection =========~%")
   ;;(format t "set-intersection Test case {2}: ~x~%" (set-intersection '(1 2) '(2 4)))
