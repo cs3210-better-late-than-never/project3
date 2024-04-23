@@ -147,44 +147,32 @@
 
 (defun boolean-eval (exp)
   (cond
-    ;; base case: make sure expression is a boolean
+    ;; base case: make expression is a boolean
     ((or (equal exp T) (equal exp NIL)) exp)
 
     ;; not case
     ((equal (car exp) 'not)
-	    (if (or (equal (second exp) T) (equal (second exp) NIL))
-		(not (second exp))
-		(not (boolean-eval (cadr exp)))))
+     (not (boolean-eval (second exp))))
 
     ;; and case
     ((equal (car exp) 'and)
-	    (if (or (equal (third exp) T) (equal (third exp) NIL))
-		(and (second exp) (third exp))
-		(and (boolean-eval (cadr exp)))))
+     (and (boolean-eval (second exp))(boolean-eval (third exp))))
 
-    ;;or case
+    ;; or case
     ((equal (car exp) 'or)
-	    (if (or (equal (third exp) T) (equal (third exp) NIL))
-		(or (second exp) (third exp))
-		(or (boolean-eval (cadr exp)))))
+     (or (boolean-eval (second exp))(boolean-eval (third exp))))
 
-    ;;xor case
+    ;; xor case
     ((equal (car exp) 'xor)
-	    (if (or (equal (third exp) T) (equal (third exp) NIL))
-		(funcall #'boolean-xor (second exp) (third exp))
-		(boolean-eval (cadr exp))))
+     (funcall #'boolean-xor (boolean-eval (second exp))(boolean-eval (third exp))))
 
-    ;;iff case
+    ;; iff case
     ((equal (car exp) 'iff)
-	    (if (or (equal (third exp) T) (equal (third exp) NIL))
-		(funcall #'boolean-iff (second exp) (third exp))
-		(boolean-eval (cadr exp))))    
+     (funcall #'boolean-iff (boolean-eval (second exp))(boolean-eval (third exp))))
 
-    ;;implies case
+    ;; implies case
     ((equal (car exp) 'implies)
-	    (if (or (equal (third exp) T) (equal (third exp) NIL))
-		(funcall #'boolean-implies (second exp) (third exp))
-		(boolean-eval (cadr exp))))    
+     (funcall #'boolean-implies (boolean-eval (second exp))(boolean-eval (third exp))))
     
   )   
 )
@@ -194,9 +182,8 @@
   ;;(format t "set-member Test case 1 (T): ~x~%" (set-member '(1 2) 1))
   ;;(format t "set-member Test case 2 (NIL): ~x~%" (set-member '(1 2) 3))
   
-  (format t "~%========= test set-union =========~%")
-  (format t "set-union Test case {1 3 4}: ~x~%" (set-union '(1 1 1 1 1 1 1 3) '(3 4 4)))
-  (format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
+  ;;(format t "~%========= test set-union =========~%")
+  ;;(format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
   
   ;;(format t "~%========= test set-intersection =========~%")
   ;;(format t "set-intersection Test case {2}: ~x~%" (set-intersection '(1 2) '(2 4)))
@@ -234,8 +221,8 @@
   ;;(format t "AND Test 2 (NIL): ~x~%" (boolean-eval '(and NIL NIL)))
   ;;(format t "AND Test 3 (NIL): ~x~%" (boolean-eval '(and T NIL)))
   ;;(format t "AND Test 4 (NIL): ~x~%" (boolean-eval '(and NIL T)))
-  ;;(format t "NESTED AND Test 1 (T): ~x~%" (boolean-eval '(and (and T T) (and NIL NIL))))
-  ;;(format t "NESTED AND Test 2 (NIL): ~x~%" (boolean-eval '(and (and NIL T) (and NIL NIL))))
+  ;;(format t "NESTED AND Test 1 (T): ~x~%" (boolean-eval '(and (and T T) (and T T))))
+  ;;(format t "NESTED AND Test 2 (NIL): ~x~%" (boolean-eval '(and (and T T) (and NIL NIL))))
   
   ;;(format t "OR Test 1 (T): ~x~%" (boolean-eval '(or T NIL)))
   ;;(format t "OR Test 2 (T): ~x~%" (boolean-eval '(or NIL T)))
@@ -249,7 +236,7 @@
   ;;(format t "XOR Test 3 (NIL): ~x~%" (boolean-eval '(xor T T)))
   ;;(format t "XOR Test 4 (NIL): ~x~%" (boolean-eval '(xor NIL NIL)))
   ;;(format t "NESTED XOR Test 1 (T) ~x~%" (boolean-eval '(xor (xor T NIL) (xor T T))))
-  ;;(format t "NESTED XOR Test 2 (NIL) ~x~%" (boolean-eval '(xor (xor NIL NIL) (xor T T))))
+  ;;(format t "NESTED XOR Test 2 (NIL) ~x~%" (boolean-eval '(xor (xor NIL T) (xor T NIL))))
 
   ;;(format t "IFF Test 1 (T): ~x~%" (boolean-eval '(iff T T)))
   ;;(format t "IFF Test 2 (T): ~x~%" (boolean-eval '(iff NIL NIL)))
@@ -265,16 +252,15 @@
   ;;(format t "NESTED IMPLIES Test 1 (T): ~x~%" (boolean-eval '(implies (implies NIL NIL) (implies T T))))
   ;;(format t "NESTED IMPLIES Test 2 (NIL): ~x~%" (boolean-eval '(implies (implies NIL NIL) (implies T NIL))))
  
-  (format t "EVAL COMBO Test 1 (T): ~x~%" (boolean-eval '(and t (or NIL T))))
-  (format t "EVAL COMBO Test 2 (NIL): ~x~%" (boolean-eval '(and T NIL)))
-  (format t "EVAL COMBO Test 3 (T): ~x~%" (boolean-eval '(not (and T NIL))))
-  (format t "EVAL COMBO Test 4 (T): ~x~%" (boolean-eval '(xor (or T T) (and T NIL))))
-  (format t "EVAL COMBO Test 5 (T): ~x~%" (boolean-eval '(implies (and T T) (not NIL))))
-  (format t "EVAL COMBO Test 6 (NIL): ~x~%" (boolean-eval '(iff (xor T T) (and T T))))
-
-  ;;for some reason this test is evaluating to T instead of NIL ?
-  (format t "EVAL COMBO Test 7 (NIL): ~x~%" (boolean-eval '(and (iff T T) (xor NIL NIL))))
-
-  (format t "EVAL COMBO Test 8 (NIL): ~x~%" (boolean-eval '(not (implies NIL T))))
-  (format t "EVAL COMBO Test 9 (T): ~x~%" (boolean-eval '(or (and T T) (iff T T))))
-  )
+  ;;(format t "EVAL COMBO Test 1 (T): ~x~%" (boolean-eval '(and T (or NIL T))))
+  ;;(format t "EVAL COMBO Test 2 (NIL): ~x~%" (boolean-eval '(and T NIL)))
+  ;;(format t "EVAL COMBO Test 3 (T): ~x~%" (boolean-eval '(not (and T NIL))))
+  ;;(format t "EVAL COMBO Test 4 (T): ~x~%" (boolean-eval '(xor (or T T) (and T NIL))))
+  ;;(format t "EVAL COMBO Test 5 (T): ~x~%" (boolean-eval '(implies (and T T) (not NIL))))
+  ;;(format t "EVAL COMBO Test 6 (NIL): ~x~%" (boolean-eval '(iff (xor T T) (and T T))))
+  ;;(format t "EVAL COMBO Test 9 (NIL): ~x~%" (boolean-eval '(not (implies NIL NIL))))
+  (format t "EVAL COMBO Test 8 (NIL): ~x~%" (boolean-eval '(and (iff T T) (xor NIL NIL))))
+  (format t "EVAL COMBO Test 9 (T): ~x~%" (boolean-eval '(or (and T NIL) (iff NIL NIL))))
+  (format t "EVAL COMBO Test 10 (NIL): ~x~%" (boolean-eval '(or (xor T T) (and T NIL))))
+  (format t "EVAL COMBO Test 11 (NIL): ~x~%" (boolean-eval '(xor (not(and(iff T NIL)(implies T T))) (or(xor T NIL)(not(and T T))))))
+)
