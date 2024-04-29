@@ -53,10 +53,11 @@
 ;;   (set-intersection '(1 2) '(2 4)) => '(2)
 
 (defun set-intersection (set-1 set-2)
+  (cond ((null set-1) nil)  ; If set-1 is empty, return nil
+        ((set-member set-2 (car set-1))  ; Check if the head of set-1 is in set-2
+         (cons (car set-1) (set-intersection (cdr set-1) set-2)))  ; If so, include it in the result
+        (t (set-intersection (cdr set-1) set-2))))  ; Otherwise, skip to the next element
 
-  ;;Your implementation go here
-
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -186,7 +187,16 @@
   ;;(format t "set-union Test case {1 2 4}: ~x~%" (set-union '(1 2) '(2 4)))
   
   ;;(format t "~%========= test set-intersection =========~%")
-  ;;(format t "set-intersection Test case {2}: ~x~%" (set-intersection '(1 2) '(2 4)))
+  ;; Test Case 1: Common Element
+  (format t "Test Case 1 (should return '(2)): ~a~%" (set-intersection '(1 2 3) '(2 4 5)))
+  ;;Test Case 2: No Common Element
+  (format t "Test Case 2 (should return NIL): ~a~%" (set-intersection '(1 2 3) '(4 5 6)))
+  ;; Test Case 3: Intersection with Empty Set
+  (format t "Test Case 3 (should return NIL): ~a~%" (set-intersection '(1 2 3) nil))
+  ;; Test Case 4: Two Empty Sets
+  (format t "Test Case 4 (should return NIL): ~a~%" (set-intersection nil nil))
+  ;; Test Case 5: Subset
+  (format t "Test Case 5 (should return '(2 3)): ~a~%" (set-intersection '(1 2 3) '(2 3)))
   
   ;;(format t "~%========= test set-diff =========~%")
   ;;(format t "set-diff Test case {1}: ~x~%" (set-diff '(1 2) '(2 4)))
