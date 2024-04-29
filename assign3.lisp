@@ -12,7 +12,7 @@
 
 (defun set-member (set item)
   (cond
-    ((equal (length set) 0) nil) 
+    ((equal set nil) set) 
     ((equal (car set) item) t)                 ; If the first element matches, return T
     (t (set-member (cdr set) item))))
 
@@ -53,7 +53,7 @@
 ;;   (set-intersection '(1 2) '(2 4)) => '(2)
 
 (defun set-intersection (set-1 set-2)
-  (cond ((null set-1) nil)  ; If set-1 is empty, return nil
+  (cond ((equal set-1 nil) nil)  ; If set-1 is empty, return nil
         ((set-member set-2 (car set-1))  ; Check if the head of set-1 is in set-2
          (cons (car set-1) (set-intersection (cdr set-1) set-2)))  ; If so, include it in the result
         (t (set-intersection (cdr set-1) set-2))))  ; Otherwise, skip to the next element
