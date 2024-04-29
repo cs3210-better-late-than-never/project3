@@ -74,9 +74,12 @@
 ;;   (set-diff '(1 2) '(2 4)) => '(1)
 
 (defun set-diff (set-1 set-2)
-  (if (equal set-1 nil)
-      set-2
-      (remove-dups (cons (car set-1) (set-union (cdr set-1) set-2)))))
+  (cond
+    ((equal set-1 nil) nil)
+    ((not (set-member set-2 (car set-1)))
+     (cons (car set-1)
+           (set-diff (cdr set-1) set-2)))
+    (t (set-diff (cdr set-1) set-2))))        
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -270,7 +273,7 @@
   ;;(format t "EVAL COMBO Test 6 (NIL): ~x~%" (boolean-eval '(iff (xor T T) (and T T))))
   ;;(format t "EVAL COMBO Test 9 (NIL): ~x~%" (boolean-eval '(not (implies NIL NIL))))
   (format t "EVAL COMBO Test 8 (NIL): ~x~%" (boolean-eval '(and (iff T T) (xor NIL NIL))))
-  (format t "EVAL COMBO Test 9 (T): ~x~%" (boolean-eval '(or (and T NIL) (iff NIL NIL))))
+  (Format T "EVAL COMBO Test 9 (T): ~x~%" (boolean-eval '(or (and T NIL) (iff NIL NIL))))
   (format t "EVAL COMBO Test 10 (NIL): ~x~%" (boolean-eval '(or (xor T T) (and T NIL))))
   (format t "EVAL COMBO Test 11 (NIL): ~x~%" (boolean-eval '(xor (not(and(iff T NIL)(implies T T))) (or(xor T NIL)(not(and T T))))))
 )
